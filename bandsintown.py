@@ -1,4 +1,8 @@
-import cjson
+try:
+	import cjson as json
+except ImportError:
+	import json
+
 import re
 import urllib
 
@@ -19,8 +23,9 @@ def send_request(url, args = []):
 	response = urllib.urlopen(base_url + "%s?%s" % (url, urllib.urlencode(args + get_args())))
 	if response.getcode() != 200:
 		raise RequestException("Request fail: %s" % response.read())
-
-	return cjson.decode(clean_slashes_for_cjson(response.read()))
+	if json.__name__ == "cjson":
+		return json.decode(clean_slashes_for_cjson(response.read()))
+	return json.loads(response.read())
 
 class InputException(Exception):
 	pass
