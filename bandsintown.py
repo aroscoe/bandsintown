@@ -83,7 +83,7 @@ class Artist(object):
 
 class Event(object):
 
-    def __init__(self, id, url, ticket_url, ticket_status, datetime, on_date_datetime, artists, venue, status):
+    def __init__(self, id, url, ticket_url, ticket_status, datetime, on_date_datetime, artists, venue, status, json_data):
         self.id = id
         self.url = url
         self.ticket_url = ticket_url
@@ -93,6 +93,7 @@ class Event(object):
         self.artists = artists
         self.venue = venue
         self.status = status
+        self.json_data = json_data
 
     def __repr__(self):
         return repr({'id': self.id, 'url': self.url, 'ticket_url': self.ticket_url, 'ticket_status': self.ticket_status, 'datetime': self.datetime, 'on_date_datetime': self.on_date_datetime, 'artists': self.artists, 'venue': self.venue})
@@ -110,9 +111,10 @@ class Event(object):
 
     @classmethod
     def parse(cls, data):
+        json_data = data
         artists = [Artist.parse(d) for d in data.get("artists", [])]
         venue = Venue.parse(data.get('venue', {}))
-        return Event(data.get('id'), data.get('url'), data.get('ticket_url'), data.get('ticket_status'), data.get('datetime'), data.get('on_date_datetime'), artists, venue, data.get('status'))
+        return Event(data.get('id'), data.get('url'), data.get('ticket_url'), data.get('ticket_status'), data.get('datetime'), data.get('on_date_datetime'), artists, venue, data.get('status'), json_data)
 
     @classmethod
     def generate_args(cls, mbids=None, artists=None, location=None, radius=None, date='upcoming', page=None, per_page=None):
