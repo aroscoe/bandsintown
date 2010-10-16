@@ -7,10 +7,9 @@ import bandsintown
 bandsintown.app_id = "musichackdaysthlm_test"
 
 def print_events(events):
-	for e in events:
-		print "%s %s (%s %s)" % (e.venue.name, e.datetime, e.venue.city, e.venue.country)
-		print "  %s" % (", ".join([a.name for a in e.artists]), )
-
+    for e in events:
+        print "%s %s (%s %s)" % (e.venue.name, e.datetime, e.venue.city, e.venue.country)
+        print "  %s" % (", ".join([a.name for a in e.artists]), )
 
 artist = bandsintown.Artist.get(mbid="65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab")
 print "Name: %s" % (artist.name, )
